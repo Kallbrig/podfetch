@@ -41,6 +41,9 @@ podfetch <rss-url> ~/podcasts/my-show --latest 5
 # Download in batches of 20 (safe for large back-catalogues)
 podfetch <rss-url> ~/podcasts/my-show --limit 20
 
+# Paginate through a large back-catalogue (episodes 21-40)
+podfetch <rss-url> ~/podcasts/my-show --limit 20 --offset 20
+
 # Custom user-agent (useful if a CDN blocks default requests)
 podfetch <rss-url> ~/podcasts/my-show --user-agent "MyArchiver/1.0"
 ```
