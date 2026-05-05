@@ -9,7 +9,7 @@ brew install podfetch
 
 ---
 
-Podcasts disappear. Shows get pulled, feeds go dark, hosting lapses. podfetch lets you keep a local archive of any podcast you care about — resumable, scriptable, and hands-off.
+Podcasts disappear. Shows get pulled, feeds go dark, hosting lapses. podfetch lets you keep a local archive of any podcast you care about - resumable, scriptable, and hands-off.
 
 ## Install
 
@@ -47,13 +47,13 @@ podfetch <rss-url> ~/podcasts/my-show --user-agent "MyArchiver/1.0"
 
 ## Features
 
-- **Resumable** — interrupted downloads pick up where they left off via HTTP `Range` headers
-- **Idempotent** — re-running never re-downloads completed episodes; state is tracked in `archive_state.json`
-- **Progress bars** — per-episode: MB downloaded, percentage, speed, ETA
-- **Graceful Ctrl+C** — partial file and state are saved cleanly on interrupt
-- **Dry-run mode** — preview the full episode list with `[new]` / `[partial]` / `[done]` markers before committing
-- **Latest N** — `--latest N` downloads only the N most recent episodes
-- **Batch pagination** — `--limit` and `--offset` for working through large back-catalogues incrementally
+- **Resumable** - interrupted downloads pick up where they left off via HTTP `Range` headers
+- **Idempotent** - re-running never re-downloads completed episodes; state is tracked in `archive_state.json`
+- **Progress bars** - per-episode: MB downloaded, percentage, speed, ETA
+- **Graceful Ctrl+C** - partial file and state are saved cleanly on interrupt
+- **Dry-run mode** - preview the full episode list with `[new]` / `[partial]` / `[done]` markers before committing
+- **Latest N** - `--latest N` downloads only the N most recent episodes
+- **Batch pagination** - `--limit` and `--offset` for working through large back-catalogues incrementally
 
 ## How it works
 
