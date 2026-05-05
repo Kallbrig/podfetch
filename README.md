@@ -1,47 +1,74 @@
 # podfetch
 
-A CLI tool to download and archive podcast episodes from RSS feeds.
+> Download and archive podcast episodes from any RSS feed.
+
+```
+brew tap Kallbrig/podfetch
+brew install podfetch
+```
+
+---
+
+Podcasts disappear. Shows get pulled, feeds go dark, hosting lapses. podfetch lets you keep a local archive of any podcast you care about — resumable, scriptable, and hands-off.
+
+## Install
+
+**Homebrew (macOS/Linux)**
+```bash
+brew tap Kallbrig/podfetch
+brew install podfetch
+```
+
+**From source (requires Python 3.12+)**
+```bash
+git clone https://github.com/Kallbrig/podfetch.git
+cd podfetch
+uv run python archive.py --help
+```
 
 ## Usage
 
-Download all episodes:
 ```bash
+# Archive everything
 podfetch <rss-url> ~/podcasts/my-show
-```
 
-Dry-run to see what would be downloaded:
-```bash
+# Preview what would be downloaded
 podfetch <rss-url> ~/podcasts/my-show --dry-run
-```
 
-Download the most recent 5 episodes:
-```bash
-podfetch <rss-url> ~/podcasts/my-show --limit 5 --offset 0
-```
+# Grab only the 5 most recent episodes
+podfetch <rss-url> ~/podcasts/my-show --latest 5
 
-Download in batches of 20:
-```bash
+# Download in batches of 20 (safe for large back-catalogues)
 podfetch <rss-url> ~/podcasts/my-show --limit 20
+
+# Custom user-agent (useful if a CDN blocks default requests)
+podfetch <rss-url> ~/podcasts/my-show --user-agent "MyArchiver/1.0"
 ```
 
 ## Features
 
-- **Resumable downloads** — partial downloads resume via HTTP `Range` headers on the next run
-- **Progress bars** — per-episode: MB, percentage, speed, ETA
-- **State tracking** — `archive_state.json` in the output directory keyed by episode GUID
-- **Graceful Ctrl+C** — saves the partial file and state before exiting
-- **Dry-run mode** — preview episodes with `[new]` / `[partial]` / `[done]` markers
-- **Pagination** — use `--offset` and `--limit` together to work backwards through episodes
-- **Batch downloads** — limit how many episodes to download per run
+- **Resumable** — interrupted downloads pick up where they left off via HTTP `Range` headers
+- **Idempotent** — re-running never re-downloads completed episodes; state is tracked in `archive_state.json`
+- **Progress bars** — per-episode: MB downloaded, percentage, speed, ETA
+- **Graceful Ctrl+C** — partial file and state are saved cleanly on interrupt
+- **Dry-run mode** — preview the full episode list with `[new]` / `[partial]` / `[done]` markers before committing
+- **Latest N** — `--latest N` downloads only the N most recent episodes
+- **Batch pagination** — `--limit` and `--offset` for working through large back-catalogues incrementally
 
-## Tests
+## How it works
 
-```bash
-uv run pytest tests/ -v
-```
+podfetch fetches the RSS feed, parses all `<item>` elements, and downloads the audio file from each `<enclosure>` tag. Episodes are named `0001 - Episode Title.mp3` (chronological order). A state file in the output directory tracks completed and partial downloads so runs are safe to interrupt and repeat.
 
-28 tests, all passing.
+## Options
 
-## Smoke Test
+| Flag | Description |
+|------|-------------|
+| `--dry-run` | Print episode list without downloading |
+| `--latest N` | Download only the N most recent episodes |
+| `--limit N` | Download at most N episodes per run |
+| `--offset N` | Skip the first N pending episodes (use with `--limit` for pagination) |
+| `--user-agent UA` | Override the HTTP User-Agent header |
 
-Tested against `https://feeds.libsyn.com/561260/rss` (69 episodes). Downloaded 2 episodes successfully, re-ran dry-run and confirmed they showed `[done]`.
+## License
+
+MIT
