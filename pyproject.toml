@@ -5,7 +5,7 @@ description = "A CLI tool to download and archive podcast episodes from RSS feed
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "requests>=2.33.1",
+    "requests>=2.34.0",
 ]
 
 [project.scripts]
